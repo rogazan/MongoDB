@@ -7,6 +7,6 @@ Se pretende disponer de una heramienta que despliegue de servicios mongo cluster
 
 El proceso se ejecuta desde un equipo de gestión que despliega contra los servidores, como se muestra en la imagen siguiente:
 
-!(https://github.com/rogazan/MongoDB/blob/master/images/topologia_fisica.jpg)
+![imagen1](https://github.com/rogazan/MongoDB/blob/master/images/topologia_fisica.jpg)
 
 
