@@ -12,18 +12,18 @@ El proceso se ejecuta desde un equipo de gestión que despliega contra los servi
 ## Prerequisitos:
 Equipo de gestión:
 1.  Instalación de Python3 con módulos paramiko y mymongo instalados
-2.  Resolución de nombres de todos los ficheros de la instalación
+2.  Resolución de nombres de todos los servidores de la instalación
 3.  Acceso a todos los servidores vía SSH (típicamente puerto 22)
-4.  Acceso a los servicios mongos que se generen durante la instalación (típicamente puerto 27017)
+4.  Acceso a los servicios mongo que se generen durante la instalación
 La solución se ha probado desde equipos Windows 10, Ubuntu 18.04 en WLS y Oracle Linux 8.2
 
 Servidores de servicios mongo:
-1.  Instalación linux (se ha probado con servidores Oracle Linux 8.2, pero deberia funcionar sin problemas en otras instalaciones)
+1.  Instalación linux (se ha probado con servidores Oracle Linux 8.2)
 2.  Servicio SSH habilitado para accesos externos
-3.  Instalación de servicios mongo (se ha probado con 4.2.9)
+3.  Instalación de software mongo (se ha probado con 4.2.9)
 4.  Resolución de nombres entre todos los servidores de la instalación
-5.  Acceso autorizado a través de todos los puertos de servicios mongo que se utilicen en la instalación entre todos los nodos
-6.  Un usuario de sistema propietario de todos los directorios propios de mongo para la ejecución del software mongo (definido en la propiedad USRSIS de la clase Parametros)
+5.  Acceso autorizado a través de todos los puertos de servicios mongo que se utilicen en la instalación, entre todos los nodos
+6.  Un usuario de sistema propietario de todos los directorios propios de mongo para la ejecución del software mongo (usuario definido en la propiedad USRSIS de la clase Parametros)
 7.  El usuario de sistema descrito en el punto anterior debe tener permisos rwx sobre una serie de directorios y todo su contenido en TODOS los servidores:
     *.  Ruta para crear los ficheros de configuración de servicios mongo (definida en la propiedad RCONF de la clase Parametros)
     *.  Ruta para crear el fichero de clave de autenticación de los servicios mongo (definida en la propiedad RKEY de la clase Parametros)
