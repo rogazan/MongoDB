@@ -11,7 +11,7 @@ El proceso se ejecuta desde un equipo de gestión que despliega contra los servi
 ![imagen1](https://github.com/rogazan/MongoDB/blob/master/images/topologia_fisica.jpg)
 
 ## Prerequisitos:
-Equipo de gestión (La solución se ha probado desde equipos Windows 10, Ubuntu 18.04 en WLS y Oracle Linux 8.2):
+Equipo de gestión (La solución se ha probado desde equipos Windows 10, WSL Ubuntu 18.04 y Oracle Linux 8.2):
 1.  Python3 con módulos paramiko y pymongo instalados (se ha probado con python 3.8)
 2.  Resolución de nombres para todos los servidores de la instalación (hosts o DNS) 
 3.  Acceso a todos los servidores vía SSH (típicamente puerto 22)
@@ -111,7 +111,7 @@ No se establece ningún requerimiento para el arranque de cada ReplicaSet, por t
 Además del fichero de definición de topología creado por generar.py, se producen otras salidas en los procesos generar.py. parar.py e iniciar.py:
 1.  Fichero de ejecuciones SSH. Todas las ejecuciones SSH se registran en un fichero definido en FSALIDASSH del modulo parametros.py. Se registra el datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stdout obtenido en el servidor remoto
 2.  Fichero de errores SSH: Todas las ejecuciones SSH que generen algún resultado en stderr, se registran en un fichero definido en FERRORSSH del modulo parametros.py. Se registra el datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stderr obtenido en el servidor remoto.
-3.  Salida por pantalla: Durante la ejecución de los procesos se generará una salida por pantalla indicando los pasos realizados precedidos de la correspondiente marca de tiempo en la que se inicia cada paso. Unos ejemplos de ello para una generación automática de tres ReplicaSets para shards con el correspondiente ReplicaSet para Config y dos nodos mongos será la siguiente (generada en WSL ubuntu 18.04):
+3.  Salida por pantalla: Durante la ejecución de los procesos se generará una salida por pantalla indicando los pasos realizados precedidos de la correspondiente marca de tiempo en la que se inicia cada paso. A continuación se incluye un ejemplo para una generación automática de tres ReplicaSets Shards, el correspondiente ReplicaSet Config y dos nodos mongos sobre una infraestructura de 5 servidores linux (ejecutada en WSL ubuntu 18.04):
 
 #### generar.py
         Genera nueva infraestructura automática
