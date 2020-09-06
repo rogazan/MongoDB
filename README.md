@@ -65,9 +65,9 @@ Se habilitan DOS modos de funcionamiento, en función del atributo AUTOCONFIG de
     *  AUTOPMONGOS: Puerto a configurar para todos los servicios mongos.
 
 ## Autenticación:
-En proceso necesita autenticarse contra dos tipos de servicios remotos:
-1.  Autenticacion contra servicios SSH. Utiliza los atributos USRSIS y PWDSIS de la clase Parametros. Para evitar el password en claro en PWDSIS es recomendable poner valor None y configurar la autenticación mediante authorized_keys para el usuario USRSIS utilizando ssh-keygen y ssh-copy-id (en windows no se dispone de la utilidad ssh-copy-id, pero en internet se encuentra información suficiente para transferir la clave pública a los servidores remotos). De este modo la conectividad funcionará con valor None en PWDSIS.
-2.  Autenticacion contra servicios mongo. Utiliza los atributos USR y PAS de la clase Parametros. Para evitar el password en claro en PAS es recomendable poner valor None, de este modo las utilidades preguntarán por el password como primer paso del proceso sin exponerlo en la clase Parametros.
+El proceso necesita autenticarse contra dos tipos de servicios remotos:
+1.  Autenticacion SSH. Utiliza los atributos USRSIS y PWDSIS de la clase Parametros. Para evitar el password en claro en PWDSIS es recomendable poner valor None y configurar la autenticación mediante authorized_keys para el usuario USRSIS utilizando ssh-keygen y ssh-copy-id (en windows no se dispone de la utilidad ssh-copy-id, pero en internet se encuentra información suficiente para transferir la clave pública a los servidores remotos). De este modo la conectividad funcionará con valor None en PWDSIS.
+2.  Autenticacion Mongo. Utiliza los atributos USR y PAS de la clase Parametros. Para evitar el password en claro en PAS es recomendable poner valor None, de este modo las utilidades preguntarán por el password como primer paso del proceso sin exponerlo en la clase Parametros.
 
 ## Procesos ejecutables:
 Se proporcionan las siguientes utilidades:
