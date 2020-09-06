@@ -21,7 +21,7 @@ class Parametros():
     # login y password del usuario que se va a crear en mongo
     # ----------------------------------------------------------------------
     USR = "miusrM"
-    PAS = "mipwdM"
+    PAS = None
 
     # ----------------------------------------------------------------------
     # role del usuario creado en mongo con la excepcion localhost
