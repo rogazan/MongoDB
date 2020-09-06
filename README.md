@@ -1,5 +1,6 @@
 # MongoDB
-Generacion de infraestructuras mongoDB en múltiples servidores
+Generacion de infraestructuras mongoDB en múltiples servidores. 
+
 Se pretende disponer de una heramienta que despliegue de servicios mongo en un conjunto de servidores para construir una infraestructura cluster que contenga:
 1.  Replicaset para Config
 2.  N Replicasets para Shards
