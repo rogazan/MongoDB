@@ -111,7 +111,7 @@ No se establece ningún requerimiento para el arranque de cada ReplicaSet, por t
 Además del fichero de definición de topología creado por generar.py, se producen otras salidas en los procesos generar.py. parar.py e iniciar.py:
 1.  Fichero de ejecuciones SSH. Todas las ejecuciones SSH se registran en un fichero definido en FSALIDASSH del modulo parametros.py. Se registra el datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stdout obtenido en el servidor remoto
 2.  Fichero de errores SSH: Todas las ejecuciones SSH que generen algún resultado en stderr, se registran en un fichero definido en FERRORSSH del modulo parametros.py. Se registra el datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stderr obtenido en el servidor remoto.
-3.  Salida por pantalla: Durante la ejecución de los procesos se generará una salida por pantalla indicando los pasos realizados precedidos de la correspondiente marca de tiempo en la que se inicia cada paso. Unos ejemplos de ello para una generación automática de tres ReplicaSets para shards con el correspondiente ReplicaSet para Config y dos nodos mongos será la siguiente (generada desde ubuntu 18.04 en WSL:
+3.  Salida por pantalla: Durante la ejecución de los procesos se generará una salida por pantalla indicando los pasos realizados precedidos de la correspondiente marca de tiempo en la que se inicia cada paso. Unos ejemplos de ello para una generación automática de tres ReplicaSets para shards con el correspondiente ReplicaSet para Config y dos nodos mongos será la siguiente (generada en WSL ubuntu 18.04):
 
 #### generar.py
         Genera nueva infraestructura automática
