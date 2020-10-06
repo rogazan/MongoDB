@@ -15,12 +15,12 @@ Equipo de gestión (La solución se ha probado desde equipos Windows 10, WSL Ubu
 1.  Python3 con módulos paramiko y pymongo instalados (se ha probado con python 3.8)
 2.  Resolución de nombres para todos los servidores de la instalación (hosts o DNS) 
 3.  Acceso a todos los servidores vía SSH (típicamente puerto 22)
-4.  Acceso a los servicios mongo que se generen durante la instalación por los puertos correspondiente.
+4.  Acceso a los servicios mongo que se generen durante la instalación por los puertos correspondientes.
 
 Servidores para servicios mongo:
 1.  Instalación Linux (se ha probado en servidores Oracle Linux 8.2)
 2.  Servicio SSH habilitado para acceso externo
-3.  Instalación de software mongo (se ha probado con 4.2.9)
+3.  Instalación de software mongo (se ha probado con enterprise 4.2.9)
 4.  Resolución de nombres entre todos los servidores de la instalación (hosts o DNS)
 5.  Acceso autorizado entre todos los nodos a través de todos los puertos de servicios mongo que se utilicen en la instalación
 6.  Un usuario de sistema autorizado para la ejecución del software mongo (definido en la propiedad USRSIS de la clase Parametros)
@@ -74,11 +74,11 @@ Se proporcionan las siguientes utilidades:
 
 ### generar.py
 Utilidad para generar la infraestructura. El módulo contiene comentarios que explican su funcionamiento. En resumen, los pasos que sigue son:
-1.  Crear la clave de autenticacion entre servicios mongo y copiarla a todos ellos
+1.  Crear la clave de autenticacion entre servicios mongo y copiarla a todos los servidores
 2.  Contruir los ficheros de configuración de servicios de mongod y copiarlos a los servidores que corresponda según la topologia a implantar
 3.  Iniciar los servicios mongod en los servidores que corresponda
 4.  Crear los ReplicaSets que se definan en la topología mediante "rs.initiate()" utilizando la excepción "localhost"
-5.  Crear un primer usuario mongo mediante "db.createUser()" en admin utilizando la excepción "localhost" con los atributos definidos en USR y PAS de la clase Parametros 
+5.  Crear un primer usuario mongo mediante "db.createUser()" en BD admin utilizando la excepción "localhost" con los atributos definidos en USR y PAS de la clase Parametros 
 6.  Contruir los ficheros de configuración de servicios de mongos y copiarlos a los servidores que corresponda según la topologia a implantar
 7.  Iniciar los servicios mongos en los servidores que corresponda
 8.  Añadir todos los ReplicaSets definidos como shard mediante "addShard()"
@@ -89,32 +89,33 @@ Utilidad para generar la infraestructura. El módulo contiene comentarios que ex
 Cabe indicar que el proceso se ha construído haciendo un uso intensivo de threads y semaphores de modo que se ejecuten en paralelo todas las tareas posibles.
 
 ### parar.py
-Utilidad para detener todos los servicios mongo de la infraestructura creada por generar.py. Al igual que en generar.py, se hace uso de threads para minimizar el tiempo de parada. El proceso utiliza el fichero de definición de topología creado por gerenerar.py y realiza la parada según el proceso documentado por mongo:
+Utilidad para detener todos los servicios mongo de la infraestructura creada por generar.py. Al igual que en generar.py, se hace uso de threads para minimizar el tiempo de parada. El proceso utiliza el fichero de definición de topología creado por generar.py y realiza la parada según el proceso documentado por mongo:
 1.  Detener el balanceador de shards
 2.  Detener los mongos
 2.  Detener los ReplicaSets de shards
 3.  Detener el ReplicaSet de config
+
 Además, cada ReplicaSet se detiene siguiendo un orden específico de los nodos que lo forman:
-1.  Detener los nodos con ROL SECUNDARY
+1.  Detener los nodos con ROL SECONDARY
 2.  Detener el nodo con ROL PRIMARY
 
 ### iniciar.py
-Utilidad para iniciar todos los servicios mongo de la infraestructura creada por generar.py. Al igual que en generar.py, se hace uso de threads para minimizar el tiempo de arranque. El proceso utiliza el fichero de definición de topología creado por gerenerar.py y realiza el arranque según el proceso documentado por mongo:
+Utilidad para iniciar todos los servicios mongo de la infraestructura creada por generar.py. Al igual que en generar.py, se hace uso de threads para minimizar el tiempo de arranque. El proceso utiliza el fichero de definición de topología creado por generar.py y realiza el arranque según el proceso documentado por mongo:
 1.  iniciar el ReplicaSet de config
 2.  Iniciar los ReplicaSets de shards
-2.  Iniciar los mongos
-1.  Iniciar el balanceador de shards
+3.  Iniciar los mongos
+4.  Iniciar el balanceador de shards
 
 No se establece ningún requerimiento para el arranque de cada ReplicaSet, por tanto todos sus nodos se inician en paralelo
 
 ## Salida generada:
-Además del fichero de definición de topología creado por generar.py, se producen otras salidas en los procesos generar.py. parar.py e iniciar.py:
-1.  Fichero de ejecuciones SSH. Todas las ejecuciones SSH se registran en un fichero definido en FSALIDASSH del modulo parametros.py. Se registra el datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stdout obtenido en el servidor remoto
-2.  Fichero de errores SSH: Todas las ejecuciones SSH que generen algún resultado en stderr, se registran en un fichero definido en FERRORSSH del modulo parametros.py. Se registra el datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stderr obtenido en el servidor remoto.
-3.  Salida por pantalla: Durante la ejecución de los procesos se generará una salida por pantalla indicando los pasos realizados precedidos de la correspondiente marca de tiempo en la que se inicia cada paso. A continuación se incluye un ejemplo para una generación automática de tres ReplicaSets Shards, el correspondiente ReplicaSet Config y dos nodos mongos sobre una infraestructura de 5 servidores linux (ejecutada en WSL ubuntu 18.04):
+Además del fichero de definición de topología creado por generar.py, se obtienen otros productos en los procesos generar.py, parar.py e iniciar.py:
+1.  Fichero de ejecuciones SSH. Todas las ejecuciones SSH se registran en un fichero definido en FSALIDASSH del modulo parametros.py. Se registra los valores de datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stdout obtenido en el servidor remoto
+2.  Fichero de errores SSH: Todas las ejecuciones SSH que generen algún resultado en stderr se registran en un fichero definido en FERRORSSH del modulo parametros.py. Se registran los valores de datetime, IP y puerto SSH del servidor de destino, el comando ejecutado y el resultado stderr obtenido en el servidor remoto.
+3.  Salida por pantalla: Durante la ejecución de los procesos se generará una salida por pantalla indicando los pasos realizados precedidos de la correspondiente marca de tiempo en la que se inicia cada paso. A continuación se incluye un ejemplo para una generación automática de tres ReplicaSets Shards, el correspondiente ReplicaSet Config y dos nodos mongos sobre una infraestructura de 5 servidores linux (el ejemplo se ha ejecutado en WSL ubuntu 18.04):
 
 #### generar.py
-        Genera nueva infraestructura automática
+    Genera nueva infraestructura automática
     2020-09-06T11:47:23.532796 : Generando fichero de clave de autenticacion de nodos
     2020-09-06T11:47:23.632866 : Generando fichero de configuracion Replica Set rsetCnf
     2020-09-06T11:47:23.633757 : Generando fichero de configuracion Replica Set rsetSH1
@@ -244,7 +245,6 @@ Además del fichero de definición de topología creado por generar.py, se produ
  
 A partir de aqui se puede comprobar la instalación mediante los comandos de administración de mongo (sh.status(), rs.isMarter(), rs.conf(), rs.status(),...)
 
-
 ## Otras utilidades
 Se incluye un directorio bash con un par de utilidades añadidas. Están construidas para mi plataforma de pruebas, pero son facilmente adaptables a las necesidades de cada uno:
  
@@ -255,4 +255,3 @@ Configura la autenticación mediante claves para todos los servidores remotos de
 Carga un fichero json con datos de prueba en una colección en la bd test (se pueden encontrar toneladas de dataSets JSON para pruebas buscando por internet). El formato es:
 
     ./cargaEjemplo.sh <servidor Mongos> <puerto> <usuario mongos> <Password> <archivo JSON> <campo shard key> <Coleccion en test>
-     
