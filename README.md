@@ -1,12 +1,12 @@
 # MongoDB
 Generacion de infraestructuras mongoDB en múltiples servidores. 
 
-Se pretende disponer de una heramienta que despliegue de servicios mongo en un conjunto de servidores para construir una infraestructura cluster que contenga:
-1.  Replicaset para Config
+Se pretende disponer de una heramienta que despliegue servicios mongoDB en un conjunto de servidores para construir una infraestructura cluster que contenga:
+1.  1 Replicaset para Config
 2.  N Replicasets para Shards
 3.  M Servidores Mongos
 
-El proceso se ejecuta desde un equipo de gestión que despliega contra los servidores, como se muestra en la imagen siguiente:
+El proceso se ejecuta desde un ordenador de gestión que despliega contra los servidores, como se muestra en la imagen siguiente:
 
 ![imagen1](https://github.com/rogazan/MongoDB/blob/master/images/topologia_fisica.jpg)
 
@@ -20,7 +20,7 @@ Equipo de gestión (La solución se ha probado desde equipos Windows 10, WSL Ubu
 Servidores para servicios mongo:
 1.  Instalación Linux (se ha probado en servidores Oracle Linux 8.2)
 2.  Servicio SSH habilitado para acceso externo
-3.  Instalación de software mongo (se ha probado con enterprise 4.2.9)
+3.  Instalación de software mongoDB (se ha probado con enterprise 4.2.9)
 4.  Resolución de nombres entre todos los servidores de la instalación (hosts o DNS)
 5.  Acceso autorizado entre todos los nodos a través de todos los puertos de servicios mongo que se utilicen en la instalación
 6.  Un usuario de sistema autorizado para la ejecución del software mongo (definido en la propiedad USRSIS de la clase Parametros)
@@ -39,7 +39,7 @@ Se proporcionan los siguientes componentes en forma de módulos python:
 4.  parametros.py: Define una clase Parametros que contendrá todos los parámetros que se utilizan en la solución. No tiene métodos propios, tan solo los atributos de clase a los que se recurre directamente sin instanciar
 
 ## Topología:
-La topología de los servicios de define en TRES diccionarios similares a los que se describen a continuación:
+La topología de los servicios se define con TRES diccionarios similares a los que se describen a continuación:
 
     REPLICASETS = {
         "rs0": {"PUERTO": 27001, "NOMBRE": "rsetCnf", "NODOS" : ["nodo1", "nodo2", "nodo3"]},
@@ -61,12 +61,12 @@ Se habilitan DOS modos de funcionamiento en función del atributo AUTOCONFIG del
     *  AUTOSHARDS:  Número de shards a generar. Se creará un ReplicaSet para cada Shard y otro más para Config
     *  AUTONODRS:   Número de nodos en cada ReplicaSet
     *  AUTOMONGOS:  Número de mongos a configurar
-    *  AUTOPSHARDS: Puerto inicial para el primer ReplicaSet, los siguientes se obtienen incrementado en 1.
+    *  AUTOPSHARDS: Puerto inicial para el primer ReplicaSet, los siguientes se obtienen mediante incrementos de 1.
     *  AUTOPMONGOS: Puerto a configurar para los servicios mongos.
 
 ## Autenticación:
 El proceso necesita autenticarse contra dos tipos de servicios remotos:
-1.  Autenticacion SSH. Utiliza los atributos USRSIS y PWDSIS de la clase Parametros. Para evitar el password en claro en PWDSIS es recomendable poner valor None y configurar la autenticación mediante authorized_keys para el usuario USRSIS utilizando ssh-keygen y ssh-copy-id (en windows no se dispone de la utilidad ssh-copy-id, pero en internet se encuentra información suficiente para transferir la clave pública a los servidores remotos). De este modo la conectividad funcionará con valor None en PWDSIS.
+1.  Autenticacion SSH. Utiliza los atributos USRSIS y PWDSIS (usuario y password) de la clase Parametros. Para evitar el password en claro en PWDSIS es recomendable poner valor None y configurar la autenticación mediante authorized_keys para el usuario USRSIS utilizando ssh-keygen y ssh-copy-id (en windows no se dispone de la utilidad ssh-copy-id, pero en internet se encuentra información suficiente para transferir la clave pública a los servidores remotos). De este modo la conectividad funcionará con valor None en PWDSIS.
 2.  Autenticacion Mongo. Utiliza los atributos USR y PAS de la clase Parametros. Para evitar el password en claro en PAS es recomendable poner valor None, de este modo las utilidades preguntarán por el password como primer paso del proceso sin exponerlo en la clase Parametros.
 
 ## Procesos ejecutables:
