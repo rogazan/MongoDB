@@ -11,7 +11,7 @@ El proceso se ejecuta desde un ordenador de gestión que despliega contra los se
 ![imagen1](https://github.com/rogazan/MongoDB/blob/master/images/topologia_fisica.jpg)
 
 ## Prerequisitos:
-Equipo de gestión (La solución se ha probado desde equipos Windows 10, WSL Ubuntu 18.04 y Oracle Linux 8.2):
+Equipo de gestión (La solución se ha probado desde equipos Windows 10, WSL Ubuntu 18.04 y Oracle Linux 7.9 y 8.2):
 1.  Python3 con módulos paramiko y pymongo instalados (se ha probado con python 3.8)
 2.  Resolución de nombres para todos los servidores de la instalación (hosts o DNS) 
 3.  Acceso a todos los servidores vía SSH (típicamente puerto 22)
